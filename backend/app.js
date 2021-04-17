@@ -1,6 +1,18 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const fishRoute = require("./routes/fish.route");
 
 const app = express();
+//Variables d'environnement
+require("dotenv").config();
+//Connexion a la base de donnée
+mongoose
+  .connect(process.env.MONGO_CONNECTION_ADMIN, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connexion à MongoDB réussie !"))
+  .catch((error) => console.log("Connexion à MongoDB échouée !: " + error));
 //Requête Cors
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -20,6 +32,8 @@ app.use(express.json());
 
 //Routes
 
-app.use("/api/dibs", dibsRoute);
+//app.use("/api/dibs", dibsRoute);
+//app.use("/api", ribsRoute);
+app.use("/api", fishRoute);
 
 module.exports = app;
